@@ -1,4 +1,6 @@
 // Import products - add this to your HTML: <script src="data/products.js"></script>
+import {cart} from '../data/cart';
+
 let productsHTML = '';
 
 products.forEach((product, index)=>{
