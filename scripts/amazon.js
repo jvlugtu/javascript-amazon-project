@@ -1,5 +1,6 @@
 // Import products - add this to your HTML: <script src="data/products.js"></script>
-import {cart} from '../data/cart';
+import {cart} from '../data/cart.js';
+import {products} from '../data/products.js';
 
 let productsHTML = '';
 
