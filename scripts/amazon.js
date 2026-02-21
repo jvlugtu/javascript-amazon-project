@@ -1,5 +1,4 @@
 // Import products - add this to your HTML: <script src="data/products.js"></script>
-
 let productsHTML = '';
 
 products.forEach((product, index)=>{
@@ -27,7 +26,7 @@ products.forEach((product, index)=>{
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -43,7 +42,7 @@ products.forEach((product, index)=>{
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -61,6 +60,14 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
   button.addEventListener('click', ()=>{
      const productId = button.dataset.productId;
+     const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+
+
+      document.querySelector(`.js-added-${productId}`).classList.add('is-added');
+
+     setTimeout(()=>{
+      document.querySelector(`.js-added-${productId}`).classList.remove('is-added');
+     }, 2000);
 
      let matchingItem;
 
@@ -71,10 +78,10 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
     });
 
     if(matchingItem){
-      matchingItem += 1;
+      matchingItem.quantity += quantity;
     } else { cart.push({
       productId: productId,
-      quantity: 1
+      quantity: quantity
      });}
 
     let cartQuantity = 0;
