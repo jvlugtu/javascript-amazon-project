@@ -63,7 +63,7 @@ products.forEach((product, index)=>{
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
-function updateCartQuantity(productId){
+export function updateCartQuantity(productId){
   let cartQuantity = 0;
 
       document.querySelector(`.js-added-${productId}`).classList.add('is-added');
