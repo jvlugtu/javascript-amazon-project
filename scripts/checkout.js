@@ -8,6 +8,8 @@ const today = dayjs();
 const deliveryDate = today.add(7, 'days');
 
 
+function renderOrderSummary(){
+
 let cartSummaryHTML = '';
 
 cart.forEach((cartItem)=>{
@@ -124,16 +126,6 @@ function deliveryOptionsHTML(matchingProduct,cartItem){
 document.querySelector('.js-order-summary')
 .innerHTML = cartSummaryHTML;
 
-export function updateCheckoutHeader(){
-  let totalQuantity = 0;
-  cart.forEach((cartItem)=>{
-    totalQuantity += cartItem.quantity;
-  });
-  
-  const itemText = totalQuantity === 1 ? 'item' : 'items';
-  document.querySelector('.js-checkout-item-count').innerText = `${totalQuantity} ${itemText}`;
-}
-
 updateCheckoutHeader();
 
 document.querySelectorAll('.js-delete-link').forEach((link)=>{
@@ -212,5 +204,20 @@ document.querySelectorAll('.js-delivery-option')
   element.addEventListener('click', ()=>{
     const {productId, deliveryOptionId} = element.dataset;
     updateDeliveryOption(productId,deliveryOptionId);
+    renderOrderSummary();
   })
 })
+};
+
+export function updateCheckoutHeader(){
+  let totalQuantity = 0;
+  cart.forEach((cartItem)=>{
+    totalQuantity += cartItem.quantity;
+  });
+  
+  const itemText = totalQuantity === 1 ? 'item' : 'items';
+  document.querySelector('.js-checkout-item-count').innerText = `${totalQuantity} ${itemText}`;
+}
+
+
+renderOrderSummary();
