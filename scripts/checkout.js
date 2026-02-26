@@ -3,6 +3,7 @@ import {products} from  "../data/products.js";
 import {formatCurrency} from "./utils/money.js";
 import {removeFromCart} from "../data/cart.js";
 
+
 let cartSummaryHTML = '';
 
 cart.forEach((cartItem)=>{
@@ -37,9 +38,9 @@ cart.forEach((cartItem)=>{
                 </div>
                 <div class="product-quantity">
                   <span>
-                    Quantity: <span class="quantity-label"> ${cartItem.quantity}</span>
+                    Quantity: <input type="number" min="1" class="quantity-input" value="${cartItem.quantity}" data-product-id="${matchingProduct.id}" style="width: 50px;"> 
                   </span>
-                  <span class="update-quantity-link link-primary">
+                  <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">
                     Update
                   </span>
                   <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
@@ -123,3 +124,24 @@ document.querySelectorAll('.js-delete-link').forEach((link)=>{
         updateCheckoutHeader();
     });
 });
+
+  // Update quantity event
+  document.querySelectorAll('.js-update-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      const productId = link.dataset.productId;
+      const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+      const newQuantity = parseInt(input.value);
+      if (isNaN(newQuantity) || newQuantity < 1) return;
+      // Update cart
+      cart.forEach((cartItem) => {
+        if (cartItem.productId === productId) {
+          cartItem.quantity = newQuantity;
+        }
+      });
+      // Save to storage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCheckoutHeader();
+      // Optionally, update the UI
+      input.value = newQuantity;
+    });
+  });
